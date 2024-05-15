@@ -58,6 +58,7 @@ export default function Signup() {
           const response = await axios.get(
             `/api/check-unique-username?username=${username}`
           );
+          console.log(response.data);
           setUsernameStatus({
             msg: response.data.msg,
             success: response.data.success,
