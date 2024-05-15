@@ -24,7 +24,7 @@ import { ApiResponse } from "@/types/apiResponse";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
-  const debounce = useDebounceCallback(setUsername);
+  const debounce = useDebounceCallback(setUsername, 500);
 
   const [usernameStatus, setUsernameStatus] = useState({
     msg: "",

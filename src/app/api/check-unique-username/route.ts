@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   await DBconnection();
 
   try {
-    const { searchParams } = new URL(req.nextUrl);
+    const { searchParams } = new URL(req.url);
     const queryParams = {
       username: searchParams.get("username"),
     };
