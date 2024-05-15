@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
         name: user.name,
         username: user.username,
         email: user.email,
-        anonymousLink: user.anonymousLink,
         isVerified: user.isVerified,
       };
 

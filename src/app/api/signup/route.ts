@@ -49,14 +49,12 @@ export async function POST(req: NextRequest) {
     } else {
       const salt = await bcryptjs.genSalt(10);
       const hashedPassword = await bcryptjs.hash(password, salt);
-      const anonymousLink = uuid();
 
       const obj = {
         name,
         username,
         email,
         password: hashedPassword,
-        anonymousLink,
       };
 
       const newUser = new UserModel(obj);
