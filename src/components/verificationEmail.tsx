@@ -86,7 +86,7 @@ export default function VerificationEmail(otp: string) {
                       <Text style={{ paddingBottom: "16px" }}>
                         Thanks,
                         <br />
-                        True Feedback Team
+                        Spill Team
                       </Text>
                     </div>
                   </div>

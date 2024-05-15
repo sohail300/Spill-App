@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     const queryParam = {
       username: searchParams.get("username"),
     };
+    console.log(queryParam);
 
     // Username
     const parsedInputUsername = usernameInputZod.safeParse(queryParam);
@@ -34,9 +35,11 @@ export async function POST(req: NextRequest) {
 
     const { username } = parsedInputUsername.data;
     const user = await UserModel.findOne({ username });
+    console.log(user);
 
     // Message
     const parsedInputMessage = messageInput.safeParse(await req.json());
+    console.log(parsedInputMessage);
 
     if (parsedInputMessage.success === false) {
       return Response.json({
@@ -63,7 +66,10 @@ export async function POST(req: NextRequest) {
         };
 
         user.messages.push(obj as Message);
+        console.log("pushed");
         await user.save();
+
+        console.log("Message Sent");
         return Response.json({
           msg: "Message Sent",
           success: true,
@@ -71,6 +77,7 @@ export async function POST(req: NextRequest) {
         });
       }
     } else {
+      console.log("User not found");
       return Response.json({
         msg: "User not found",
         success: false,

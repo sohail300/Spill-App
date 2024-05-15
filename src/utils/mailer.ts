@@ -41,7 +41,7 @@ export async function mailer(email: string) {
     }
 
     return Response.json({
-      msg: "Mail sent successfully",
+      msg: "User registered and mail sent successfully",
       success: true,
       status: "201",
     });

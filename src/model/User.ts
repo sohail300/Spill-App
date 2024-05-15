@@ -8,7 +8,6 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
-  anonymousLink: string;
   messages: Message[];
   isAcceptingMessage: boolean;
   isVerified: boolean;
@@ -38,11 +37,6 @@ const userSchema: Schema<User> = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-  },
-  anonymousLink: {
-    type: String,
-    required: [true, "anonymousLink is required"],
-    unique: true,
   },
   messages: {
     type: [messageSchema],

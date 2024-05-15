@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { passwordInput, usernameInput } from "./signupSchema";
+import { emailInput, passwordInput, usernameInput } from "./signupSchema";
 
 export const loginInput = z.object({
-  username: usernameInput,
+  identifier: usernameInput || emailInput,
   password: passwordInput,
 });

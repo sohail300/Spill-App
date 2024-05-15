@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { emailInput } from "./signupSchema";
+import { usernameInput } from "./signupSchema";
 
 export const otpInput = z.object({
-    email: emailInput,
-    otp: z.string().length(6, {message: 'Enter a 6 digit code'})
-})
+  username: usernameInput,
+  otp: z.string().length(6, { message: "Enter a 6 digit code" }),
+});

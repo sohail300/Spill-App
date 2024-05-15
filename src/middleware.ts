@@ -3,11 +3,19 @@ import { getToken } from "next-auth/jwt";
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/signin", "/signup", "/", "/verify/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/signin",
+    "/signup",
+    "/",
+    "/verify/:path*",
+    "/dashboard/:path*",
+  ],
 };
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
+  console.log(token);
   const url = request.nextUrl.pathname;
 
   const isPublic =

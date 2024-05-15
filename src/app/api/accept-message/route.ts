@@ -79,11 +79,13 @@ export async function PUT(req: NextRequest) {
     const user = await UserModel.findById(id);
 
     if (user) {
+      user.isAcceptingMessage = acceptingMessages;
+      await user.save();
       return Response.json({
         msg: "Status Changed",
         success: true,
         status: "200",
-        isAcceptingMessage: acceptingMessages,
+        isAcceptingMessage: user.isAcceptingMessage,
       });
     } else {
       return Response.json({

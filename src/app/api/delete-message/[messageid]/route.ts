@@ -9,7 +9,7 @@ import { messageInput } from "@/inputSchema/message";
 import { Message } from "@/model/Message";
 import mongoose from "mongoose";
 
-export async function POST(
+export async function DELETE(
   req: NextRequest,
   {
     params,

@@ -18,13 +18,14 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const { otp, email } = parsedInput.data;
+    const { otp, username } = parsedInput.data;
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ username });
 
-    if (user && user.verifyTokenExpiry !== null) {
+    if (user) {
       if (
         user.verifyToken === otp &&
+        user.verifyTokenExpiry !== null &&
         user.verifyTokenExpiry.getTime() >= Date.now()
       ) {
         user.isVerified = true;
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
         });
       } else {
         return Response.json({
-          msg: "Incorrect OTP",
+          msg: "Incorrect OTP or OTP expired",
           success: false,
           status: "404",
         });

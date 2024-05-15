@@ -17,11 +17,11 @@ export const passwordInput = z
 export const emailInput = z.string().email({ message: "Enter a valid email" });
 
 export const signupInput = z.object({
-  username: usernameInput,
   name: z
     .string()
     .min(1, "Name should have 1 - 20 charcters")
     .max(20, "Name should have 1 - 20 charcters"),
   email: emailInput,
+  username: usernameInput,
   password: passwordInput,
 });
