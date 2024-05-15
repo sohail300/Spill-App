@@ -89,6 +89,7 @@ export default function Signup() {
       console.log(response.data);
 
       if (response.data.success) {
+        router.replace(`/verify/${username}`);
         toast({
           title: "Yayy! Success.",
           description: response.data.msg,
@@ -98,7 +99,6 @@ export default function Signup() {
             color: "#388e3c",
           },
         });
-        router.replace(`/verify/${username}`);
       } else {
         toast({
           variant: "destructive",
