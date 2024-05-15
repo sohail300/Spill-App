@@ -24,7 +24,7 @@ import { ApiResponse } from "@/types/apiResponse";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
-  const debounce = useDebounceCallback(setUsername, 500);
+  const debounce = useDebounceCallback(setUsername);
 
   const [usernameStatus, setUsernameStatus] = useState({
     msg: "",
@@ -58,7 +58,6 @@ export default function Signup() {
           const response = await axios.get(
             `/api/check-unique-username?username=${username}`
           );
-          console.log(response.data);
           setUsernameStatus({
             msg: response.data.msg,
             success: response.data.success,
@@ -67,7 +66,6 @@ export default function Signup() {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         let errorMessage = axiosError.response?.data.msg;
-        console.log(errorMessage);
         setUsernameStatus({
           msg: errorMessage || "Try refreshing the page",
           success: false,
@@ -164,7 +162,7 @@ export default function Signup() {
                       }}
                     />
                   </FormControl>
-                  <div>
+                  {/* <div>
                     {isCheckingUsername ? (
                       "Checking username availability"
                     ) : (
@@ -178,7 +176,7 @@ export default function Signup() {
                         {usernameStatus.msg}
                       </p>
                     )}
-                  </div>
+                  </div> */}
                   <FormMessage />
                 </FormItem>
               )}
