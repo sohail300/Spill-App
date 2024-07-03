@@ -1,10 +1,8 @@
 import { acceptingMessagesInput } from "@/inputSchema/acceptingMessagesSchema";
-import { emailInput } from "@/inputSchema/signupSchema";
 import { DBconnection } from "@/lib/connection";
 import { UserModel } from "@/model/User";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
-import { z } from "zod";
 import { authOptions } from "../auth/[...nextauth]/options";
 
 export async function GET(req: NextRequest) {

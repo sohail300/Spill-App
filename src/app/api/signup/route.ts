@@ -4,8 +4,6 @@ import { signupInput } from "@/inputSchema/signupSchema";
 import { UserModel } from "@/model/User";
 import bcryptjs from "bcryptjs";
 import { mailer } from "@/utils/mailer";
-import { ApiResponse } from "@/types/apiResponse";
-import { uuid } from "uuidv4";
 
 export async function POST(req: NextRequest) {
   await DBconnection();

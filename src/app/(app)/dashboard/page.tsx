@@ -123,130 +123,127 @@ const Dashboard = () => {
     }
   }
 
-  useEffect(() => {
-    getMessages();
+  async function getIsAccepting() {
+    try {
+      console.log(form.getValues("acceptingMessages"));
 
-    async function getIsAccepting() {
-      try {
-        console.log(form.getValues("acceptingMessages"));
+      const response = await axios.get("/api/accept-message");
 
-        const response = await axios.get("/api/accept-message");
-
-        if (response.data.success) {
-          console.log(response.data.isAcceptingMessage);
-          form.setValue("acceptingMessages", response.data.isAcceptingMessage);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: "Messages not loaded",
-          });
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        const errorMessage = axiosError.response?.data.msg;
-        console.log(errorMessage);
+      if (response.data.success) {
+        console.log(response.data.isAcceptingMessage);
+        form.setValue("acceptingMessages", response.data.isAcceptingMessage);
+      } else {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
-          description: errorMessage || "Try again",
+          description: "Messages not loaded",
         });
       }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.msg;
+      console.log(errorMessage);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: errorMessage || "Try again",
+      });
     }
+  }
 
+  useEffect(() => {
+    getMessages();
     getIsAccepting();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div>
-      <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-        <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl py-12 pt-32 ">
+      <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
-          <div className="flex items-center">
-            <input
-              type="text"
-              value={profileUrl}
-              disabled
-              className="input input-bordered w-full p-2 mr-2"
-            />
-            <Button
-              onClick={() => {
-                copyToClipboard();
-              }}
-            >
-              Copy
-            </Button>
-          </div>
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={profileUrl}
+            disabled
+            className="input input-bordered w-full p-2 mr-2"
+          />
+          <Button
+            onClick={() => {
+              copyToClipboard();
+            }}
+          >
+            Copy
+          </Button>
         </div>
+      </div>
 
-        <Form {...form}>
-          <form className="w-full space-y-6">
-            <FormField
-              control={form.control}
-              name="acceptingMessages"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-1/4">
-                  <FormDescription>Accept Messages</FormDescription>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={(e) => {
-                        field.onChange(e);
-                        changeAcceptingMessage();
-                      }}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
+      <Form {...form}>
+        <form className="w-full space-y-6">
+          <FormField
+            control={form.control}
+            name="acceptingMessages"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-1/4">
+                <FormDescription>Accept Messages</FormDescription>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={(e) => {
+                      field.onChange(e);
+                      changeAcceptingMessage();
+                    }}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
 
-        <Separator />
+      <Separator />
 
-        <Button
-          className="mt-4"
-          variant="outline"
-          onClick={() => {
-            getMessages();
-          }}
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCcw className="h-4 w-4" />
-          )}
-        </Button>
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {messages.length > 0
-            ? messages.map((item, index) => {
-                const dateObj = new Date(item.createdOn);
+      <Button
+        className="mt-4"
+        variant="outline"
+        onClick={() => {
+          getMessages();
+        }}
+      >
+        {isLoading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <RefreshCcw className="h-4 w-4" />
+        )}
+      </Button>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {messages.length > 0
+          ? messages.map((item, index) => {
+              const dateObj = new Date(item.createdOn);
 
-                const formattedDate = dateObj.toLocaleString("en-US", {
-                  month: "long", // Full month name
-                  day: "numeric", // Day of the month with padding (01-31)
-                  year: "numeric", // Year
-                  hour: "numeric", // Hour in 24-hour format (0-23)
-                  minute: "numeric", // Minutes with padding (00-59)
-                  hour12: true, // Use 12-hour format with AM/PM
-                });
+              const formattedDate = dateObj.toLocaleString("en-US", {
+                month: "long", // Full month name
+                day: "numeric", // Day of the month with padding (01-31)
+                year: "numeric", // Year
+                hour: "numeric", // Hour in 24-hour format (0-23)
+                minute: "numeric", // Minutes with padding (00-59)
+                hour12: true, // Use 12-hour format with AM/PM
+              });
 
-                return (
-                  <div key={item._id}>
-                    <CardComponent
-                      id={item._id}
-                      date={formattedDate}
-                      content={item.content}
-                      getMessFunction={getMessages}
-                    />
-                  </div>
-                );
-              })
-            : "No messages to display"}
-        </div>
+              return (
+                <div key={item._id}>
+                  <CardComponent
+                    id={item._id}
+                    date={formattedDate}
+                    content={item.content}
+                    getMessFunction={getMessages}
+                  />
+                </div>
+              );
+            })
+          : "No messages to display"}
       </div>
     </div>
   );

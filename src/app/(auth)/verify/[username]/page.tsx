@@ -23,7 +23,6 @@ import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/apiResponse";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 
 const Verify = ({ params }: { params: { username: string } }) => {
   const username = params.username;
