@@ -30,7 +30,7 @@ const Dashboard = () => {
   if (typeof window !== "undefined") {
     profileUrl = `${window.location.origin}/u/${user?.username}`;
   } else {
-    profileUrl = `http://localhost:3000/u/${user?.username}`;
+    profileUrl = `https://spill-app.vercel.app/u/${user?.username}`;
   }
 
   const [messages, setMessages] = useState<any[]>([]);
