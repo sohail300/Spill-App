@@ -84,8 +84,22 @@ export default function Signin() {
     }
   }
 
+  function copyUsername() {
+    navigator.clipboard.writeText("testuser");
+    toast({
+      title: "Username copied to clipboard",
+    });
+  }
+
+  async function copyPassword() {
+    await navigator.clipboard.writeText("test123");
+    toast({
+      title: "Password copied to clipboard",
+    });
+  }
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
+    <div className="flex justify-center items-center min-h-screen bg-gray-800 mt-20">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
@@ -143,6 +157,18 @@ export default function Signin() {
               >
                 Sign up
               </Link>
+            </div>
+
+            <div className="mt-8 p-4 bg-gray-100 rounded-md">
+              <div className="text-lg font-medium mb-2">
+                Test Credentials (Click to copy)
+              </div>
+              <p className="mb-1 cursor-pointer" onClick={() => copyUsername()}>
+                <span className="font-medium">Username:</span> testuser
+              </p>
+              <p className=" cursor-pointer" onClick={() => copyPassword()}>
+                <span className="font-medium">Password:</span> test123
+              </p>
             </div>
           </form>
         </Form>

@@ -5,7 +5,7 @@ import { UserModel } from "@/model/User";
 import bcryptjs from "bcryptjs";
 import { mailer } from "@/utils/mailer";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: NextResponse) {
   await DBconnection();
 
   try {
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       await newUser.save();
       console.log("User Registered");
 
-      const response = await mailer(email);
+      const response = await mailer(req, res, email);
 
       return response;
     }

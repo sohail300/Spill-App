@@ -1,67 +1,30 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import VerificationEmail from "@/components/verificationEmail";
 import { ApiResponse } from "@/types/apiResponse";
 import otpGenerator from "otp-generator";
 import { UserModel } from "@/model/User";
 import nodemailer from "nodemailer";
-import { transporter } from "./transporter";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function mailer(email: string) {
+export async function mailer(
+  req: NextRequest,
+  res: NextResponse,
+  email: string
+) {
   try {
     const otp = otpGenerator.generate(6, { specialChars: false });
 
-    const mailOptions = {
-      from: `"Spill" <help@spill.com>`,
-      to: `${email}`,
+    const { data, error } = await resend.emails.send({
+      from: "Spill <contact@heysohail.me>",
+      to: email,
       subject: "OTP Verification",
-      html: `<body style="font-family: Helvetica, Arial, sans-serif; margin: 0px; padding: 0px; background-color: #ffffff;">
-          <table role="presentation"
-            style="width: 100%; border-collapse: collapse; border: 0px; border-spacing: 0px; font-family: Arial, Helvetica, sans-serif; background-color: rgb(239, 239, 239);">
-            <tbody>
-              <tr>
-                <td align="center" style="padding: 1rem 2rem; vertical-align: top; width: 100%;">
-                  <table role="presentation" style="max-width: 600px; border-collapse: collapse; border: 0px; border-spacing: 0px; text-align: left;">
-                    <tbody>
-                      <tr>
-                        <td style="padding: 40px 0px 0px;">
-      
-                          <div style="padding: 20px; background-color: rgb(255, 255, 255);">
-                            <div style="color: rgb(0, 0, 0); text-align: left;">
-                              <h1 style="margin: 1rem 0">Verification code</h1>
-                              <p style="padding-bottom: 16px">Please use the verification code below to activate your account.</p>
-                              <p style="padding-bottom: 16px"><strong style="font-size: 130%">${otp}</strong></p>
-                              <p style="padding-bottom: 16px">If you didn’t ask to verify this address, you can ignore
-                              this email.</p>
-                              <p style="padding-bottom: 16px">Thanks,<br>Spill Team</p>
-                            </div>
-                          </div>
-                          <div style="padding-top: 20px; color: rgb(153, 153, 153); text-align: center;">
-                            <p style="padding-bottom: 16px">Made with ♥ by Sohail</p>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </body>
-        `,
-    };
+      react: VerificationEmail(otp),
+    });
 
-    const response = await transporter.sendMail(mailOptions);
-
-    console.log(response);
-    if (response.rejected.length > 0) {
-      return Response.json({
-        msg: "Error in sending mail, please ask for another one in your profile",
-        success: false,
-        status: "400",
-      });
+    if (error) {
+      return NextResponse.json(error);
     }
 
     const user = await UserModel.findOne({ email });
