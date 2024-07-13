@@ -16,6 +16,11 @@ const Navbar = () => {
 
   console.log(session);
 
+  async function handleLogout() {
+    const response = await signOut();
+    console.log(response);
+  }
+
   return (
     <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white fixed top-0 w-full ">
       <div className="container mx-auto flex flex-row justify-between items-center">
@@ -27,7 +32,7 @@ const Navbar = () => {
           <>
             <span>Hey, {user.name}</span>
             <Button
-              onClick={() => signOut()}
+              onClick={() => handleLogout()}
               className="w-full md:w-auto bg-slate-100 text-black"
               variant="outline"
             >
