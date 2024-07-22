@@ -30,7 +30,7 @@ const Dashboard = () => {
   if (typeof window !== "undefined") {
     profileUrl = `${window.location.origin}/u/${user?.username}`;
   } else {
-    profileUrl = `https://spill-app.vercel.app/u/${user?.username}`;
+    profileUrl = `spill.heysohail.me/u/${user?.username}`;
   }
 
   const [messages, setMessages] = useState<any[]>([]);
@@ -102,12 +102,6 @@ const Dashboard = () => {
 
       if (response.data.success) {
         setMessages(response.data.messages);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Messages not loaded",
-        });
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
