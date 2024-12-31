@@ -101,6 +101,7 @@ const Dashboard = () => {
       const response = await axios.get("/api/get-message");
 
       if (response.data.success) {
+        console.log("Messages Found!");
         setMessages(response.data.messages);
       }
     } catch (error) {

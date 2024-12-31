@@ -42,7 +42,6 @@ const CardComponent = ({
 
       if (response.data.success) {
         console.log(response.data.msg);
-        await getMessFunction();
         toast({
           title: "Yayy! Success.",
           description: response.data.msg,
@@ -52,6 +51,7 @@ const CardComponent = ({
             color: "#388e3c",
           },
         });
+        getMessFunction();
       } else {
         toast({
           variant: "destructive",

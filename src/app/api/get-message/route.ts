@@ -42,7 +42,7 @@ export async function GET(request: Request) {
       msg: "Messages Found",
       status: 200,
       success: true,
-      messages: user[0].messages,
+      messages: user[0]?.messages || [],
     });
   } catch (error) {
     console.error("An unexpected error occurred:", error);
